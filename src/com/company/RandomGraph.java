@@ -8,7 +8,7 @@ public class RandomGraph {
     // Number of vertices 
     private int vertices;
     private Map<Integer, Agent> agentsMap;
-    private Map<Collection<Integer>, Float> envyDegreeMap = new HashMap<>();
+    private Map<String, Float> envyDegreeMap = new HashMap<>();
     private int edges;
 
     // p represents the probability 
@@ -36,9 +36,9 @@ public class RandomGraph {
         this.matrix = new int[n][n];
 
         // Print the probability p 
-        System.out.println(
-                "The probability that there is an edge"
-                        + " between any two vertices is : " + p);
+        //System.out.println(
+         //       "The probability that there is an edge"
+        //                + " between any two vertices is : " + p);
 
 
         // A for loop to randomly generate edges 
@@ -101,11 +101,10 @@ public class RandomGraph {
     }
 
     public float envyFreeDegree(Map<Integer, Integer> allocationMap) {
-        /*if(envyDegreeMap.containsKey(allocationMap.values())){
-            //System.out.println("The Same");
-            return envyDegreeMap.get(allocationMap.values());
-        }*/
-        //System.out.println(allocationMap);
+        if(envyDegreeMap.containsKey(allocationMap.values().toString())){
+            return envyDegreeMap.get(allocationMap.values().toString());
+        }
+
         float avgDegreeOfEnvy = 0;
         for (Map.Entry<Integer, Integer> house : allocationMap.entrySet()) {
             Agent a = agentsMap.get(house.getKey());
@@ -126,7 +125,7 @@ public class RandomGraph {
                 }
             }
         }
-        //envyDegreeMap.put(allocationMap.values(), avgDegreeOfEnvy/(this.edges));
+        envyDegreeMap.put(allocationMap.values().toString(), avgDegreeOfEnvy/(this.edges));
         return avgDegreeOfEnvy/(this.edges);
     }
 
@@ -146,10 +145,14 @@ public class RandomGraph {
         return connections;
     }
 
-    public List<Agent> getAgentsWithMaxConnections(Set<Integer> excluded) {
+    public List<Agent> getAgentsWithMaxConnections(Set<Integer> excluded, boolean excludeItself) {
         List<Integer> degrees = new ArrayList<>();
         this.agentsMap.values().forEach(agent -> {
-            degrees.add(getConnections(agent).size());
+            if(excludeItself){
+                degrees.add(getConnections(agent, excluded).size());
+            } else {
+                degrees.add(getConnections(agent).size());
+            }
         });
 
         ArrayIndexComparator comparator = new ArrayIndexComparator(degrees);

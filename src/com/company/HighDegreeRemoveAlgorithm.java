@@ -1,10 +1,12 @@
 package com.company;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class HighDegreeAlgorithm extends AbstractAlgorithm {
+public class HighDegreeRemoveAlgorithm extends AbstractAlgorithm {
 
-    public HighDegreeAlgorithm(RandomGraph g, int n) {
+    public HighDegreeRemoveAlgorithm(RandomGraph g, int n) {
         super(g, n);
     }
 
@@ -21,7 +23,7 @@ public class HighDegreeAlgorithm extends AbstractAlgorithm {
             return allocationMap;
         }
 
-        List<Agent> agents = graph.getAgentsWithMaxConnections(allocationMap.keySet(), false);
+        List<Agent> agents = graph.getAgentsWithMaxConnections(allocationMap.keySet(), true);
 
         Map<Integer, Integer> bestHousesForAgents = new HashMap<>();
         Map<Integer, Integer> housesToAgents = new HashMap<>();
