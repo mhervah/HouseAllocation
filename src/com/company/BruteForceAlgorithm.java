@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BruteForceAlgorithm extends AbstractAlgorithm {
 
-    public BruteForceAlgorithm(RandomGraph g, int n) {
+    public BruteForceAlgorithm(AbstractGraph g, int n) {
         super(g, n);
     }
 
@@ -29,13 +29,13 @@ public class BruteForceAlgorithm extends AbstractAlgorithm {
                     }
                 }
             }
-            float current = graph.envyFreeDegree(allocationMap);
+            float current = graph.envyFreeDegree(allocationMap, false);
             if (current < avgEnvyDegree) {
                 avgEnvyDegree = current;
                 bestAllocationMap = new HashMap<>(allocationMap);
             }
         }
-        System.out.println(bestAllocationMap);
+        //System.out.println(bestAllocationMap);
         return avgEnvyDegree;
     }
 
@@ -68,6 +68,13 @@ public class BruteForceAlgorithm extends AbstractAlgorithm {
         }
 
         return permutations;
+    }
+
+    public static void main(String[] args) {
+        int n = 12;
+        RandomGraph randomGraph = new RandomGraph(n, 2f/n);
+        AbstractAlgorithm alg = new BruteForceAlgorithm(randomGraph, n);
+        System.out.println(alg.findSolution());
     }
 
 }

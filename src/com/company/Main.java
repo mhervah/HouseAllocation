@@ -1,57 +1,296 @@
 package com.company;
+
 import java.util.*;
 
 public class Main {
 
+
     public static void main(String[] args) {
-        // Create a RandomGraph object
-        int n = 20;
-        int aWin = 0;
-        int draw = 0;
-        int bWin = 0;
-        for(int i=0; i<100; i++) {
-            RandomGraph randomGraph = new RandomGraph(n, 2f / n);
-            /*for (Agent a : randomGraph.getAgentsMap().values()) {
-                System.out.println("Agent" + a.getId() + ":" + randomGraph.getConnections(a));
-            }*/
-            // Print the graph
-        /*for (int i = 0; i < randomGraph.matrix.length; i++){
-            for (int j = 0; j < randomGraph.matrix.length; j++) {
-                System.out.print(randomGraph.matrix[i][j] + " ");
+        comparebyN();
+        compareTree();
+    }
+
+    public static void test() {
+        long start = System.currentTimeMillis();
+
+        int[] n = new int[]{5, 50, 100, 500, 1000};
+        //int[] n = new int[]{100};
+        System.out.printf("%10s %20s %20s %20s %20s", "N", "p = 2/n", "p = 1/n", "p = 1/100n", "p = 1/sqrt(n)");
+        System.out.println();
+
+        int numberofTests = 20;
+
+        for (int i = 0; i < n.length; i++) {
+            System.out.printf("%10s", n[i]);
+            float[] p = new float[]{2f / n[i], 1f / n[i], 1f / (100 * n[i]), (float) (1f / Math.sqrt(n[i]))};
+            for (int k = 0; k < p.length; k++) {
+                float average = 0;
+                for (int t = 0; t < numberofTests; t++) {
+                    RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                    AbstractAlgorithm alg = new HighDegreeSimpleAlgorithm(randomGraph, n[i], true);
+                    average += alg.findSolution();
+                }
+
+                System.out.printf("%20f", average / numberofTests);
             }
             System.out.println();
-        }*/
 
-            /*for (int i = 1; i <= randomGraph.matrix.length; i++) {
-                System.out.println(i + ":" + randomGraph.getAgentsMap().get(i).getPreferenceList());
-            }*/
+        }
 
-            //BruteForceAlgorithm alg = new BruteForceAlgorithm(randomGraph, n);
-            //System.out.println(alg.findSolution());
+        long end = System.currentTimeMillis();
+        System.out.println("It takes " + (end - start) + " ms. Each pair tested " + numberofTests + " times.");
+    }
 
-            //long startTime = System.currentTimeMillis();
-            AbstractAlgorithm alg2 = new HighDegreeAlgorithm(randomGraph, n);
-            //System.out.println(alg2.findSolution());
-            //long endTime = System.currentTimeMillis();
-            //System.out.println("Total execution time: " + (endTime - startTime));
+    public static void comparebyP() {
+        long start = System.currentTimeMillis();
 
-            //startTime = System.currentTimeMillis();
-            AbstractAlgorithm alg4 = new HighDegreeRemoveAlgorithm(randomGraph, n);
-            //System.out.println(alg4.findSolution());
-            //endTime = System.currentTimeMillis();
-            //System.out.println("Total execution time: " + (endTime - startTime));
-            if (alg2.findSolution()> alg4.findSolution()){
-                aWin++;
-            } else if (alg2.findSolution()< alg4.findSolution()){
-                bWin++;
-            } else {
-                draw++;
+        int[] n = new int[]{5, 25, 100, 500, 1000, 5000};
+        //int[] n = new int[]{100};
+        System.out.printf("%10s %20s %19s %17s %23s %15s", "N", "BruteForce", "HighDegree", "RandomN", "HighDegreeSimple", "Bucket");
+        System.out.println();
+
+        int numberofTests = 10;
+
+        for (int k = 0; k < 4; k++) {
+            System.out.println(new String[]{"p = 2/n", "p = 1/n", "p = 1/100n", "p = 1/sqrt(n)"}[k]);
+
+            for (int i = 0; i < n.length; i++) {
+                System.out.printf("%10s", n[i]);
+                float[] p = new float[]{2f / n[i], 1f / n[i], 1f / (100 * n[i]), (float) (1f / Math.sqrt(n[i]))};
+                float average = 0;
+                if (n[i] < 12) {
+                    for (int t = 0; t < numberofTests; t++) {
+                        RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                        AbstractAlgorithm alg = new BruteForceAlgorithm(randomGraph, n[i]);
+                        average += alg.findSolution();
+                    }
+                    System.out.printf("%20f", average / numberofTests);
+                } else {
+                    System.out.printf("%20s", "-");
+                }
+
+                if (n[i] < 51) {
+                    for (int t = 0; t < numberofTests; t++) {
+                        RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                        AbstractAlgorithm alg = new HighDegreeAlgorithm(randomGraph, n[i], false);
+                        average += alg.findSolution();
+                    }
+                    System.out.printf("%20f", average / numberofTests);
+                } else {
+                    System.out.printf("%20s", "-");
+                }
+
+                if (n[i] < 1001) {
+                    average = 0;
+                    for (int t = 0; t < numberofTests; t++) {
+                        RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                        AbstractAlgorithm alg = new RandomNAlgorithm(randomGraph, n[i]);
+                        average += alg.findSolution();
+                    }
+
+                    System.out.printf("%20f", average / numberofTests);
+
+                } else {
+                    System.out.printf("%20s", "-");
+                }
+
+                if (n[i] < 1001) {
+                    average = 0;
+
+                    for (int t = 0; t < numberofTests; t++) {
+                        RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                        AbstractAlgorithm alg = new HighDegreeSimpleAlgorithm(randomGraph, n[i], false);
+                        average += alg.findSolution();
+                    }
+
+                    System.out.printf("%20f", average / numberofTests);
+
+                } else {
+                    System.out.printf("%20s", "-");
+                }
+
+                average = 0;
+                for (int t = 0; t < numberofTests; t++) {
+                    RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                    AbstractAlgorithm alg = new BucketAlgorithm(randomGraph, n[i]);
+                    average += alg.findSolution();
+                }
+
+                System.out.printf("%20f", average / numberofTests);
+                System.out.println();
             }
 
-            /*AbstractAlgorithm alg3 = new RandomNAlgorithm(randomGraph, n);
-            System.out.println(alg3.findSolution());
-            System.out.println("******************************");*/
         }
-        System.out.print(aWin + " : "+draw+" : "+bWin);
+
+        long end = System.currentTimeMillis();
+        System.out.println("It takes " + (end - start) + " ms. Each pair tested " + numberofTests + " times.");
+    }
+
+    public static void comparebyN() {
+        long start = System.currentTimeMillis();
+
+        int[] n = new int[]{5, 25, 100, 500, 1000, 5000};
+        //int[] n = new int[]{100};
+        System.out.printf("%20s %20s %19s %17s %23s %15s", "p", "BruteForce", "HighDegree", "RandomN", "HighDegreeSimple", "Bucket");
+        System.out.println();
+
+        int numberofTests = 10;
+
+        for (int i = 0; i < n.length; i++) {
+            System.out.println("n = "+n[i]);
+
+            for (int k = 0; k < 4; k++) {
+                System.out.printf("%20s",new String[]{"2/n", "1/n", "1/100n", "1/sqrt(n)"}[k]);
+
+                float[] p = new float[]{2f / n[i], 1f / n[i], 1f / (100 * n[i]), (float) (1f / Math.sqrt(n[i]))};
+                float average = 0;
+                if (n[i] < 12) {
+                    for (int t = 0; t < numberofTests; t++) {
+                        RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                        AbstractAlgorithm alg = new BruteForceAlgorithm(randomGraph, n[i]);
+                        average += alg.findSolution();
+                    }
+                    System.out.printf("%20.8f", average / numberofTests);
+                } else {
+                    System.out.printf("%20s", "-");
+                }
+
+                if (n[i] < 51) {
+                    for (int t = 0; t < numberofTests; t++) {
+                        RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                        AbstractAlgorithm alg = new HighDegreeAlgorithm(randomGraph, n[i], false);
+                        average += alg.findSolution();
+                    }
+                    System.out.printf("%20.8f", average / numberofTests);
+                } else {
+                    System.out.printf("%20s", "-");
+                }
+
+                if (n[i] < 1001) {
+                    average = 0;
+                    for (int t = 0; t < numberofTests; t++) {
+                        RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                        AbstractAlgorithm alg = new RandomNAlgorithm(randomGraph, n[i]);
+                        average += alg.findSolution();
+                    }
+
+                    System.out.printf("%20.8f", average / numberofTests);
+
+                } else {
+                    System.out.printf("%20s", "-");
+                }
+
+                if (n[i] < 1001) {
+                    average = 0;
+
+                    for (int t = 0; t < numberofTests; t++) {
+                        RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                        AbstractAlgorithm alg = new HighDegreeSimpleAlgorithm(randomGraph, n[i], false);
+                        average += alg.findSolution();
+                    }
+
+                    System.out.printf("%20.8f", average / numberofTests);
+
+                } else {
+                    System.out.printf("%20s", "-");
+                }
+
+                average = 0;
+                for (int t = 0; t < numberofTests; t++) {
+                    RandomGraph randomGraph = new RandomGraph(n[i], p[k]);
+                    AbstractAlgorithm alg = new BucketAlgorithm(randomGraph, n[i]);
+                    average += alg.findSolution();
+                }
+
+                System.out.printf("%20.8f", average / numberofTests);
+                System.out.println();
+            }
+
+        }
+
+        long end = System.currentTimeMillis();
+        System.out.println("It takes " + (end - start) + " ms. Each pair tested " + numberofTests + " times.");
+    }
+
+    public static void compareTree() {
+        long start = System.currentTimeMillis();
+
+        int[] n = new int[]{5, 25, 100, 500, 1000, 5000};
+        //int[] n = new int[]{100};
+        System.out.printf("%10s %20s %19s %17s %23s %15s", "N", "BruteForce", "HighDegree", "RandomN", "HighDegreeSimple", "Bucket");
+        System.out.println();
+
+        int numberofTests = 20;
+
+
+        for (int i = 0; i < n.length; i++) {
+            System.out.printf("%10s", n[i]);
+            float[] p = new float[]{2f / n[i], 1f / n[i], 1f / (100 * n[i]), (float) (1f / Math.sqrt(n[i]))};
+            float average = 0;
+            if (n[i] < 12) {
+                for (int t = 0; t < numberofTests; t++) {
+                    RandomTree randomGraph = new RandomTree(n[i]);
+                    AbstractAlgorithm alg = new BruteForceAlgorithm(randomGraph, n[i]);
+                    average += alg.findSolution();
+                }
+                System.out.printf("%20.8f", average / numberofTests);
+            } else {
+                System.out.printf("%20s", "-");
+            }
+
+            if (n[i] < 51) {
+                for (int t = 0; t < numberofTests; t++) {
+                    RandomTree randomGraph = new RandomTree(n[i]);
+                    AbstractAlgorithm alg = new HighDegreeAlgorithm(randomGraph, n[i], false);
+                    average += alg.findSolution();
+                }
+                System.out.printf("%20.8f", average / numberofTests);
+            } else {
+                System.out.printf("%20s", "-");
+            }
+
+            if (n[i] < 1001) {
+                average = 0;
+                for (int t = 0; t < numberofTests; t++) {
+                    RandomTree randomGraph = new RandomTree(n[i]);
+                    AbstractAlgorithm alg = new RandomNAlgorithm(randomGraph, n[i]);
+                    average += alg.findSolution();
+                }
+
+                System.out.printf("%20.8f", average / numberofTests);
+
+            } else {
+                System.out.printf("%20s", "-");
+            }
+
+            if (n[i] < 1001) {
+                average = 0;
+
+                for (int t = 0; t < numberofTests; t++) {
+                    RandomTree randomGraph = new RandomTree(n[i]);
+                    AbstractAlgorithm alg = new HighDegreeSimpleAlgorithm(randomGraph, n[i], false);
+                    average += alg.findSolution();
+                }
+
+                System.out.printf("%20.8f", average / numberofTests);
+
+            } else {
+                System.out.printf("%20s", "-");
+            }
+
+            average = 0;
+            for (int t = 0; t < numberofTests; t++) {
+                RandomTree randomGraph = new RandomTree(n[i]);
+                AbstractAlgorithm alg = new BucketAlgorithm(randomGraph, n[i]);
+                average += alg.findSolution();
+            }
+
+            System.out.printf("%20.8f", average / numberofTests);
+            System.out.println();
+        }
+
+
+        long end = System.currentTimeMillis();
+        System.out.println("It takes " + (end - start) + " ms. Each pair tested " + numberofTests + " times.");
     }
 }

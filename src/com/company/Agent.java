@@ -28,4 +28,9 @@ public class Agent {
     public int getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return id+"";
+    }
 }

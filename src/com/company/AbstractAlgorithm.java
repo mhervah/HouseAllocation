@@ -2,10 +2,10 @@ package com.company;
 
 public abstract class AbstractAlgorithm {
 
-    RandomGraph graph;
+    AbstractGraph graph;
     int n;
 
-    public AbstractAlgorithm(RandomGraph g, int n) {
+    public AbstractAlgorithm(AbstractGraph g, int n) {
         this.graph = g;
         this.n=n;
     }

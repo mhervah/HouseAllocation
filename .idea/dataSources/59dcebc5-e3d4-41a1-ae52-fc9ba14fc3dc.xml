@@ -913,315 +913,449 @@ SELECT|sys.sys_config
     </user>
     <table id="284" parent="2" name="category"/>
     <table id="285" parent="2" name="categoryproperty"/>
-    <table id="286" parent="2" name="product"/>
-    <table id="287" parent="2" name="productimages"/>
-    <table id="288" parent="2" name="productpropertyvalue"/>
-    <table id="289" parent="2" name="producttranslation"/>
-    <table id="290" parent="2" name="role"/>
-    <table id="291" parent="2" name="user"/>
-    <column id="292" parent="284" name="id">
+    <table id="286" parent="2" name="clienttype"/>
+    <table id="287" parent="2" name="order"/>
+    <table id="288" parent="2" name="product"/>
+    <table id="289" parent="2" name="productimages"/>
+    <table id="290" parent="2" name="productpropertyvalue"/>
+    <table id="291" parent="2" name="producttranslation"/>
+    <table id="292" parent="2" name="role"/>
+    <table id="293" parent="2" name="status"/>
+    <table id="294" parent="2" name="user"/>
+    <column id="295" parent="284" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="293" parent="284" name="name">
+    <column id="296" parent="284" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="294" parent="284" name="category_categoryId_uindex">
+    <index id="297" parent="284" name="category_categoryId_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="295" parent="284" name="category_name_uindex">
+    <index id="298" parent="284" name="category_name_uindex">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="296" parent="284" name="PRIMARY">
+    <key id="299" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="297" parent="284" name="category_categoryId_uindex">
+    <key id="300" parent="284" name="category_categoryId_uindex">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>category_categoryId_uindex</UnderlyingIndexName>
     </key>
-    <key id="298" parent="284" name="category_name_uindex">
+    <key id="301" parent="284" name="category_name_uindex">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>category_name_uindex</UnderlyingIndexName>
     </key>
-    <column id="299" parent="285" name="categoryId">
+    <column id="302" parent="285" name="categoryId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="300" parent="285" name="propertyId">
+    <column id="303" parent="285" name="propertyId">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="301" parent="285" name="propertyName">
+    <column id="304" parent="285" name="propertyName">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="302" parent="285" name="categoryProperty_category_id_fk">
+    <index id="305" parent="285" name="categoryProperty_category_id_fk">
       <ColNames>categoryId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="303" parent="285" name="PRIMARY">
+    <key id="306" parent="285" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>propertyId</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="304" parent="285" name="categoryProperty_category_id_fk">
+    <foreign-key id="307" parent="285" name="categoryProperty_category_id_fk">
       <ColNames>categoryId</ColNames>
       <RefTableName>category</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="305" parent="286" name="productId">
+    <column id="308" parent="286" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
-      <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="306" parent="286" name="code">
+    <column id="309" parent="286" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
-    </column>
-    <column id="307" parent="286" name="price">
-      <Position>3</Position>
-      <DataType>int|0s</DataType>
-    </column>
-    <column id="308" parent="286" name="categoryId">
-      <Position>4</Position>
-      <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="309" parent="286" name="isDeleted">
-      <Position>5</Position>
-      <DataType>tinyint(1)|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
-    </column>
-    <index id="310" parent="286" name="Product_ProductId_uindex">
-      <ColNames>productId</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="311" parent="286" name="product_category_categoryId_fk2">
-      <ColNames>categoryId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="312" parent="286" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>productId</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="313" parent="286" name="Product_ProductId_uindex">
-      <ColNames>productId</ColNames>
-      <UnderlyingIndexName>Product_ProductId_uindex</UnderlyingIndexName>
-    </key>
-    <foreign-key id="314" parent="286" name="product_category_categoryId_fk">
-      <ColNames>categoryId</ColNames>
-      <RefTableName>category</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="315" parent="287" name="id">
-      <Position>1</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>null</SequenceIdentity>
-    </column>
-    <column id="316" parent="287" name="path">
-      <Position>2</Position>
-      <DataType>varchar(300)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="317" parent="287" name="productId">
-      <Position>3</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="318" parent="287" name="orderNumber">
-      <Position>4</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>0</DefaultExpression>
-    </column>
-    <index id="319" parent="287" name="productimages_path_uindex">
-      <ColNames>path</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="320" parent="287" name="productimages_product_productId_fk">
-      <ColNames>productId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="321" parent="287" name="PRIMARY">
+    <key id="310" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="322" parent="287" name="productimages_path_uindex">
-      <ColNames>path</ColNames>
-      <UnderlyingIndexName>productimages_path_uindex</UnderlyingIndexName>
+    <column id="311" parent="287" name="id">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="312" parent="287" name="userId">
+      <Position>2</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="313" parent="287" name="productId">
+      <Position>3</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="314" parent="287" name="quantity">
+      <Position>4</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>1</DefaultExpression>
+    </column>
+    <column id="315" parent="287" name="statusId">
+      <Position>5</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>2</DefaultExpression>
+    </column>
+    <column id="316" parent="287" name="date">
+      <Position>6</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="317" parent="287" name="order_user_userId_fk">
+      <ColNames>userId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="318" parent="287" name="order_product_productId_fk">
+      <ColNames>productId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="319" parent="287" name="order_status_id_fk">
+      <ColNames>statusId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="320" parent="287" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
     </key>
-    <foreign-key id="323" parent="287" name="productimages_product_productId_fk">
+    <foreign-key id="321" parent="287" name="order_user_userId_fk">
+      <ColNames>userId</ColNames>
+      <RefTableName>user</RefTableName>
+      <RefColNames>userId</RefColNames>
+    </foreign-key>
+    <foreign-key id="322" parent="287" name="order_product_productId_fk">
       <ColNames>productId</ColNames>
       <RefTableName>product</RefTableName>
       <RefColNames>productId</RefColNames>
+    </foreign-key>
+    <foreign-key id="323" parent="287" name="order_status_id_fk">
+      <ColNames>statusId</ColNames>
+      <RefTableName>status</RefTableName>
+      <RefColNames>id</RefColNames>
     </foreign-key>
     <column id="324" parent="288" name="productId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="325" parent="288" name="propertyId">
+    <column id="325" parent="288" name="code">
+      <Position>2</Position>
+      <DataType>varchar(45)|0s</DataType>
+    </column>
+    <column id="326" parent="288" name="price1">
+      <Position>3</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <column id="327" parent="288" name="price2">
+      <Position>4</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <column id="328" parent="288" name="price3">
+      <Position>5</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <column id="329" parent="288" name="categoryId">
+      <Position>6</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="330" parent="288" name="isDeleted">
+      <Position>7</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+    </column>
+    <index id="331" parent="288" name="Product_ProductId_uindex">
+      <ColNames>productId</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="332" parent="288" name="product_category_categoryId_fk2">
+      <ColNames>categoryId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="333" parent="288" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>productId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="334" parent="288" name="Product_ProductId_uindex">
+      <ColNames>productId</ColNames>
+      <UnderlyingIndexName>Product_ProductId_uindex</UnderlyingIndexName>
+    </key>
+    <foreign-key id="335" parent="288" name="product_category_categoryId_fk">
+      <ColNames>categoryId</ColNames>
+      <RefTableName>category</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="336" parent="289" name="id">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="337" parent="289" name="path">
+      <Position>2</Position>
+      <DataType>varchar(300)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="338" parent="289" name="productId">
+      <Position>3</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="339" parent="289" name="orderNumber">
+      <Position>4</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+    </column>
+    <index id="340" parent="289" name="productimages_path_uindex">
+      <ColNames>path</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="341" parent="289" name="productimages_product_productId_fk">
+      <ColNames>productId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="342" parent="289" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="343" parent="289" name="productimages_path_uindex">
+      <ColNames>path</ColNames>
+      <UnderlyingIndexName>productimages_path_uindex</UnderlyingIndexName>
+    </key>
+    <foreign-key id="344" parent="289" name="productimages_product_productId_fk">
+      <ColNames>productId</ColNames>
+      <RefTableName>product</RefTableName>
+      <RefColNames>productId</RefColNames>
+    </foreign-key>
+    <column id="345" parent="290" name="productId">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="346" parent="290" name="propertyId">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="326" parent="288" name="value">
+    <column id="347" parent="290" name="value">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="327" parent="288" name="productpropertyvalue_product_productId_fk">
+    <index id="348" parent="290" name="productpropertyvalue_product_productId_fk">
       <ColNames>productId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="328" parent="288" name="PRIMARY">
+    <key id="349" parent="290" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>propertyId
 productId</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="329" parent="288" name="productpropertyvalue_product_productId_fk">
+    <foreign-key id="350" parent="290" name="productpropertyvalue_product_productId_fk">
       <ColNames>productId</ColNames>
       <RefTableName>product</RefTableName>
       <RefColNames>productId</RefColNames>
     </foreign-key>
-    <foreign-key id="330" parent="288" name="productpropertyvalue_categoryproperty_propertyId_fk">
+    <foreign-key id="351" parent="290" name="productpropertyvalue_categoryproperty_propertyId_fk">
       <ColNames>propertyId</ColNames>
       <RefTableName>categoryproperty</RefTableName>
       <RefColNames>propertyId</RefColNames>
     </foreign-key>
-    <column id="331" parent="289" name="productId">
+    <column id="352" parent="291" name="productId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="332" parent="289" name="language">
+    <column id="353" parent="291" name="language">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="333" parent="289" name="description">
+    <column id="354" parent="291" name="description">
       <Position>3</Position>
       <DataType>varchar(300)|0s</DataType>
     </column>
-    <column id="334" parent="289" name="name">
+    <column id="355" parent="291" name="name">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <key id="335" parent="289" name="PRIMARY">
+    <key id="356" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>productId
 language</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="336" parent="289" name="producttranslation_product_productId_fk">
+    <foreign-key id="357" parent="291" name="producttranslation_product_productId_fk">
       <ColNames>productId</ColNames>
       <RefTableName>product</RefTableName>
       <RefColNames>productId</RefColNames>
     </foreign-key>
-    <column id="337" parent="290" name="roleId">
+    <column id="358" parent="292" name="roleId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="338" parent="290" name="name">
+    <column id="359" parent="292" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="339" parent="290" name="role_name_uindex">
+    <index id="360" parent="292" name="role_name_uindex">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="340" parent="290" name="PRIMARY">
+    <key id="361" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>roleId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="341" parent="290" name="role_name_uindex">
+    <key id="362" parent="292" name="role_name_uindex">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>role_name_uindex</UnderlyingIndexName>
     </key>
-    <column id="342" parent="291" name="userId">
+    <column id="363" parent="293" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="343" parent="291" name="firstName">
+    <column id="364" parent="293" name="status">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="344" parent="291" name="lastName">
+    <key id="365" parent="293" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="366" parent="294" name="userId">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="367" parent="294" name="firstName">
+      <Position>2</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="368" parent="294" name="lastName">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="345" parent="291" name="email">
+    <column id="369" parent="294" name="email">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="346" parent="291" name="roleId">
+    <column id="370" parent="294" name="roleId">
       <Position>5</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="347" parent="291" name="password">
+    <column id="371" parent="294" name="password">
       <Position>6</Position>
       <DataType>varchar(500)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="348" parent="291" name="isDeleted">
+    <column id="372" parent="294" name="isDeleted">
       <Position>7</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <index id="349" parent="291" name="user_email_uindex">
+    <column id="373" parent="294" name="phoneNumber">
+      <Position>8</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="374" parent="294" name="isApproved">
+      <Position>9</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+    </column>
+    <column id="375" parent="294" name="clientTypeId">
+      <Position>10</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>1</DefaultExpression>
+    </column>
+    <index id="376" parent="294" name="user_email_uindex">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="350" parent="291" name="user_role_roleId_fk">
+    <index id="377" parent="294" name="user_role_roleId_fk">
       <ColNames>roleId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="351" parent="291" name="PRIMARY">
+    <index id="378" parent="294" name="user_clienttype_id_fk">
+      <ColNames>clientTypeId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="379" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="352" parent="291" name="user_email_uindex">
+    <key id="380" parent="294" name="user_email_uindex">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>user_email_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="353" parent="291" name="user_role_roleId_fk">
+    <foreign-key id="381" parent="294" name="user_role_roleId_fk">
       <ColNames>roleId</ColNames>
       <RefTableName>role</RefTableName>
       <RefColNames>roleId</RefColNames>
+    </foreign-key>
+    <foreign-key id="382" parent="294" name="user_clienttype_id_fk">
+      <ColNames>clientTypeId</ColNames>
+      <RefTableName>clienttype</RefTableName>
+      <RefColNames>id</RefColNames>
     </foreign-key>
   </database-model>
 </dataSource>
